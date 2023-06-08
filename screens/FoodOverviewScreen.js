@@ -21,6 +21,12 @@ function FoodOverviewScreen({ route, navigation }) {
   });
 
   const renderFoodItem = (itemData) => {
+    const handleFoodSelect = () => {
+      navigation.navigate("FoodDetails", {
+        foodId: itemData.item.id,
+      });
+    };
+
     const item = itemData.item;
     const foodItemProps = {
       title: item.title,
@@ -28,6 +34,7 @@ function FoodOverviewScreen({ route, navigation }) {
       affordability: item.affordability,
       complexity: item.complexity,
       duration: item.duration,
+      onPress: handleFoodSelect,
     };
 
     return <FoodItem {...foodItemProps} />;
