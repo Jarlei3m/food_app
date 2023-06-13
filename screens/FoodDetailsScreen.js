@@ -4,9 +4,29 @@ import { MEALS } from "../data/dummy-data";
 import FoodDetails from "../components/FoodDetails";
 import Subtitle from "../components/FoodDetail/Subtitle";
 import List from "../components/FoodDetail/List";
+import { useLayoutEffect } from "react";
+import IconButton from "../components/IconButton";
 
-export function FoodDetailsScreen({ route }) {
+export function FoodDetailsScreen({ route, navigation }) {
   const { foodId } = route.params;
+
+  function handleHeaderButtonPress() {
+    console.log("pressed");
+  }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <IconButton
+            icon="star"
+            color="white"
+            onPress={handleHeaderButtonPress}
+          />
+        );
+      },
+    });
+  }, [navigation, handleHeaderButtonPress]);
 
   const selectedFood = MEALS.find((food) => food.id === foodId);
 
