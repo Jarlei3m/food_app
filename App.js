@@ -10,6 +10,7 @@ import FoodDetailsScreen from "./screens/FoodDetailsScreen";
 import FavoritesScreen from "./screens/FavoritesScreen";
 
 import { Ionicons } from "@expo/vector-icons";
+import { FavoritesProvider } from "./store/context/favorites-context";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -61,35 +62,37 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: "#ce1e3c",
-            },
-            headerTintColor: "white",
-            contentStyle: {
-              backgroundColor: "#e2e2e2",
-            },
-          }}
-        >
-          <Stack.Screen
-            name="Drawer"
-            component={DrawerNavigator}
-            options={{
-              headerShown: false,
+      <FavoritesProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: "#ce1e3c",
+              },
+              headerTintColor: "white",
+              contentStyle: {
+                backgroundColor: "#e2e2e2",
+              },
             }}
-          />
-          <Stack.Screen name="FoodOverview" component={FoodOverviewScreen} />
-          <Stack.Screen
-            name="FoodDetails"
-            component={FoodDetailsScreen}
-            options={{
-              title: "About the Meal",
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+          >
+            <Stack.Screen
+              name="Drawer"
+              component={DrawerNavigator}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen name="FoodOverview" component={FoodOverviewScreen} />
+            <Stack.Screen
+              name="FoodDetails"
+              component={FoodDetailsScreen}
+              options={{
+                title: "About the Meal",
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </FavoritesProvider>
     </>
   );
 }

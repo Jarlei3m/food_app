@@ -1,10 +1,19 @@
-import { StyleSheet, FlatList, View } from "react-native";
-import { MEALS, CATEGORIES } from "../data/dummy-data";
-import FoodItem from "../components/FoodItem";
 import { useLayoutEffect } from "react";
+import { MEALS, CATEGORIES } from "../data/dummy-data";
+import FoodList from "../components/FoodList/FoodList";
 
 function FoodOverviewScreen({ route, navigation }) {
   const { categoryId } = route.params;
+
+  const foodList = MEALS.filter((mealItem) => {
+    return mealItem.categoryIds.includes(categoryId);
+  });
+
+  // const handleFoodSelect = (selectedFoodId) => {
+  //   navigation.navigate("FoodDetails", {
+  //     foodId: selectedFoodId,
+  //   });
+  // };
 
   useLayoutEffect(() => {
     const categoryTitle = CATEGORIES.find(
@@ -16,46 +25,7 @@ function FoodOverviewScreen({ route, navigation }) {
     });
   }, [categoryId, navigation]);
 
-  const foodList = MEALS.filter((mealItem) => {
-    return mealItem.categoryIds.includes(categoryId);
-  });
-
-  const renderFoodItem = (itemData) => {
-    const handleFoodSelect = () => {
-      navigation.navigate("FoodDetails", {
-        foodId: itemData.item.id,
-      });
-    };
-
-    const item = itemData.item;
-    const foodItemProps = {
-      title: item.title,
-      imageUrl: item.imageUrl,
-      affordability: item.affordability,
-      complexity: item.complexity,
-      duration: item.duration,
-      onPress: handleFoodSelect,
-    };
-
-    return <FoodItem {...foodItemProps} />;
-  };
-
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={foodList}
-        keyExtractor={(item) => item.id}
-        renderItem={renderFoodItem}
-      />
-    </View>
-  );
+  return <FoodList foodList={foodList} />;
 }
 
 export default FoodOverviewScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-});
